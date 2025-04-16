@@ -159,6 +159,18 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# Adding datasets to .gitignore
+datasets/
+
+# Adding archive.zip to .gitignore
+archive.zip
 
 # Test Pyton File
 test.py
+
+# Ignore models directory
+models/
+
+# Ignore train_model.py script
+emotion-detector/train_model.py
+
