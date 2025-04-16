@@ -135,6 +135,8 @@ NeuroMaze consists of three main components:
 2. **AI Backend**: FastAPI server that processes emotions and determines difficulty
 3. **Unity Game**: Adaptive puzzle game that responds to player emotions
 
+---
+
 ## Prerequisites
 
 ### Python Environment
@@ -144,6 +146,8 @@ NeuroMaze consists of three main components:
 ### Unity
 - Unity 2021.3 or higher
 - TextMeshPro package
+
+---
 
 ## Installation
 
@@ -163,50 +167,8 @@ pip install -r requirements.txt
 3. **Download the emotion model**:
 - Place the emotion detection model in `models/emotion_model.pth`
 - If you don't have a model, you can train one using the provided training scripts
-
-## Running the System
-
-### 1. Start the AI Services
-
-Open a terminal and run:
-```bash
-python main.py
-```
-This will start:
-- The emotion detector on port 8001
-- The backend server on port 8000
-
-### 2. Set up the Unity Project
-
-1. Open the Unity project in `unity-game/`
-2. Import TextMeshPro if not already installed
-3. Set up the scene:
-   - Create a new scene or use the provided sample scene
-   - Add the following GameObjects:
-     - GameManager (empty GameObject with GameManager script)
-     - DifficultyManager (empty GameObject with DifficultyManager script)
-     - Player (3D object with PlayerController script)
-     - Canvas with EmotionUI components
-
-### 3. Configure the Scene
-
-1. **Player Setup**:
-   - Add a Rigidbody component
-   - Configure constraints (freeze rotation on X and Z)
-   - Set appropriate drag values
-
-2. **UI Setup**:
-   - Create a Canvas
-   - Add EmotionPanel with:
-     - EmotionText (TextMeshPro)
-     - DifficultyText (TextMeshPro)
-     - FeedbackText (TextMeshPro)
-     - EmotionIcon (Image)
-   - Add emotion icons to the Assets/Sprites/Emotions folder
-
-3. **Camera Setup**:
-   - Position the camera to view the player
-   - Adjust field of view as needed
+  
+---
 
 ## How It Works
 
@@ -242,6 +204,8 @@ The following parameters are adjusted based on difficulty:
 - Player Speed
 - Puzzle Time Limit
 
+---
+
 ## Testing
 
 1. **Start the AI Services**:
@@ -258,6 +222,8 @@ python main.py
 - Check the Unity Console for any errors
 - Monitor the Python terminal for emotion detection output
 - Verify that the UI updates with current emotion and difficulty
+
+---
 
 ## Troubleshooting
 
@@ -288,6 +254,8 @@ python main.py
    - Look for emotion detection output
    - Check for any backend errors
 
+---
+
 ## Contributing
 
 1. Fork the repository
@@ -296,9 +264,13 @@ python main.py
 4. Push to the branch
 5. Create a Pull Request
 
+---
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
 
 ## Acknowledgments
 
