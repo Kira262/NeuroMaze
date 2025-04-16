@@ -9,12 +9,16 @@ from PIL import Image
 import numpy as np
 from .emotion_model import EmotionCNN
 import torch
+import requests
+import time
+from typing import Optional
 
 class EmotionDetector:
-    def __init__(self, model_path="./models/emotion_model.pth"):
+    def __init__(self, model_path="./models/emotion_model.pth", api_url: Optional[str] = None):
         self.model = EmotionCNN()
         self.model.load_state_dict(torch.load(model_path, map_location=torch.device("cpu")))
         self.model.eval()
+        self.api_url = api_url
         self.transform = transforms.Compose([
             transforms.Resize((48, 48)),
             transforms.Grayscale(num_output_channels=1),
@@ -58,3 +62,55 @@ class EmotionDetector:
         if roi.size == 0:
             return None
         return cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
+
+    def run_continuous_detection(self, update_interval: float = 1.0):
+        """Run continuous emotion detection and send updates to the backend."""
+        cap = cv2.VideoCapture(0)
+        try:
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    break
+                
+                emotion = self.detect_emotion(frame)
+                if self.api_url:
+                    self.send_emotion_update(emotion)
+                
+                time.sleep(update_interval)
+        finally:
+            cap.release()
+
+    def send_emotion_update(self, emotion: str):
+        """Send emotion update to the backend API."""
+        if not self.api_url:
+            return
+        
+        try:
+            response = requests.post(
+                f"{self.api_url}/adjust-difficulty/",
+                json={"emotion": emotion}
+            )
+            response.raise_for_status()
+        except requests.RequestException as e:
+            print(f"Error sending emotion update: {e}")
+
+    def start_api_service(self, host: str = "127.0.0.1", port: int = 8001):
+        """Start the emotion detector as an API service."""
+        from fastapi import FastAPI
+        import uvicorn
+        
+        app = FastAPI()
+        
+        @app.get("/detect")
+        async def detect_emotion():
+            cap = cv2.VideoCapture(0)
+            try:
+                ret, frame = cap.read()
+                if ret:
+                    emotion = self.detect_emotion(frame)
+                    return {"emotion": emotion}
+                return {"emotion": "Neutral"}
+            finally:
+                cap.release()
+        
+        uvicorn.run(app, host=host, port=port)
