@@ -5,10 +5,10 @@
   <img src="https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi" alt="FastAPI"/>
   <img src="https://img.shields.io/badge/PyTorch-ML-orange?logo=pytorch" alt="PyTorch"/>
   <img src="https://img.shields.io/badge/License-MIT-yellow" alt="MIT License"/>
+  <img src="https://img.shields.io/badge/Made with-❤-maroon" alt="Made with Love">
 </p>
 
 ---
-
 > **NeuroMaze** is an AI-powered puzzle game that adapts itself in real-time based on your emotional state and playstyle. Combining game design, AI, and emotion detection, it delivers a truly personalized gameplay experience.
 
 ---
@@ -27,7 +27,7 @@
 
 ```bash
 # 1. Clone the repo
-$ git clone https://github.com/yourusername/NeuroMaze.git
+$ git clone https://github.com/ira262/NeuroMaze.git
 $ cd NeuroMaze
 
 # 2. Install dependencies
@@ -120,7 +120,7 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 
 **Paavan**  
 CSE Student | Full-stack Dev | AI Explorer  
-[Portfolio](https://github.com/kira262)
+[Portfolio](https://github.com/ira262)
 
 ---
 
