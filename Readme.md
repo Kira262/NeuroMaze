@@ -19,46 +19,59 @@
 - 🗣️ **AI-Powered Game Narrator** — The in-game voice adapts its tone to your behavior and emotions
 - 🌐 **WebGL-Ready** — Playable in browser for demo and portfolio
 
-## 📸 Demo
-
-> _Coming soon! We're working on a gameplay demo video to showcase NeuroMaze's adaptive features._
-
 ## 🚀 Quickstart
 
+### Prerequisites
+- Windows 10/11
+- Python 3.8 or higher
+- Webcam
+- Git (optional, for cloning)
+
+### Installation Options
+
+#### Option 1: One-Click Launch (Recommended)
+1. Download the latest release
+2. Run `launch.bat`
+   - This will automatically:
+     - Set up the Python environment
+     - Install dependencies
+     - Start the backend
+     - Launch the game
+
+#### Option 2: Manual Setup
 ```bash
-# 1. Clone the repo
+# 1. Clone the repository
 git clone https://github.com/Kira262/NeuroMaze.git
 cd NeuroMaze
 
-# 2. Install dependencies
-pip install -r requirements.txt
+# 2. Run setup script
+setup.bat
 
-# 3. Start the backend (FastAPI)
-cd ai-backend
-uvicorn main:app --reload
-
-# 4. Run the emotion detector
-cd ../emotion_detector
-python detect_emotion.py
-
-# 5. Start the game (Pygame)
-cd ../game
-python game.py
+# 3. Start the game
+run_game.bat
 ```
 
-## 🛠️ Tech Stack
+### Configuration
+Customize your experience by editing `config.json`:
+```json
+{
+    "backend": {
+        "host": "0.0.0.0",    // Change if running on a different machine
+        "port": 8000          // Change if port 8000 is in use
+    },
+    "emotion_detector": {
+        "update_interval": 1.0 // How often to check emotions (in seconds)
+    },
+    "game": {
+        "default_difficulty": "Normal",
+        "log_level": "INFO"   // Options: DEBUG, INFO, WARNING, ERROR
+    }
+}
+```
 
-| Area              | Technologies                                      |
-|-------------------|--------------------------------------------------|
-| Game Engine       | Pygame (Python)                                  |
-| Emotion Detection | OpenCV, MediaPipe, PyTorch CNN                   |
-| Backend API       | FastAPI, Uvicorn                                 |
-| AI Models         | PyTorch (Emotion Classification, Behavior Modeling) |
-| Communication     | REST API                                         |
-| Hosting           | (Planned) WebGL, Render/Vercel                   |
+## 🛠️ Development
 
-## 📦 Project Structure
-
+### Project Structure
 ```
 NeuroMaze/
 ├── ai-backend/         # FastAPI backend for difficulty logic
@@ -66,9 +79,41 @@ NeuroMaze/
 ├── game/               # Pygame-based maze game
 ├── assets/             # Art, audio, and UI assets
 ├── demo/               # WebGL build or gameplay footage
+├── scripts/            # Utility scripts
+│   ├── launch.bat      # One-click launcher
+│   ├── setup.bat       # Environment setup with version checks
+│   ├── run_game.bat    # Game runner
+│   ├── cleanup.bat     # Environment cleanup
+│   └── test_installation.bat  # Installation verification
 ├── requirements.txt    # Python dependencies
-└── Readme.md           # This file
+└── config.json         # Configuration file
 ```
+
+### Available Scripts
+- `launch.bat` - One-click setup and launch
+- `setup.bat` - Set up Python environment with version checks
+- `run_game.bat` - Start the game
+- `cleanup.bat` - Reset environment
+- `test_installation.bat` - Verify installation and dependencies
+
+### Installation Verification
+After setup, you can verify your installation by running:
+```bash
+test_installation.bat
+```
+This will check:
+- Python environment
+- Virtual environment
+- Required packages
+- Webcam access
+- Backend health
+
+### Development Workflow
+1. Run `setup.bat` to create the environment
+2. Use `test_installation.bat` to verify setup
+3. Make your changes
+4. Test with `run_game.bat`
+5. Use `cleanup.bat` to reset if needed
 
 ## 🧠 How It Works
 
@@ -92,50 +137,45 @@ NeuroMaze/
 | Disgust    | Hard       | Increased challenge                       |
 | Neutral    | Normal     | Standard game parameters                  |
 
-## 🧩 Roadmap
+## 🆘 Troubleshooting
 
-- [x] Basic Maze Navigation
-- [x] Emotion Detector Integration
-- [x] Backend AI Logic
-- [ ] Puzzle Room Template
-- [ ] Unity ↔ API Integration
-- [ ] WebGL Build & Deployment
+### Common Issues
 
-## 🛠️ Prerequisites
+1. **Webcam Not Working**
+   - Check if webcam is properly connected
+   - Verify camera permissions in Windows Settings
+   - Try a different USB port
+   - Test with another application (e.g., Camera app)
 
-- Python 3.8+
-- Virtual environment (recommended)
-- Webcam access
-- Unity 2021.3+ (for future Unity integration)
+2. **Backend Connection Issues**
+   - Check if backend is running: `curl http://localhost:8000/health`
+   - Verify port 8000 is available
+   - Check firewall settings
+   - Look for error messages in the console
+
+3. **Installation Problems**
+   - Run `cleanup.bat` and try again
+   - Ensure Python 3.8+ is installed
+   - Check if pip is up to date
+   - Verify virtual environment creation
+
+### Debugging Tools
+- Check logs in the console
+- Use the health endpoint: `http://localhost:8000/health`
+- Monitor emotion detection in real-time
+- Check game difficulty adjustments
 
 ## 🤝 Contributing
 
-1. Fork the repo
+1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a pull request
 
-## 💬 Getting Help
+## 📜 License
 
-Having trouble? Here are some common solutions:
-
-1. **Webcam Issues**
-   - Ensure your webcam is properly connected and accessible
-   - Check camera permissions in your system settings
-   - Try a different camera if available
-
-2. **Installation Problems**
-   - Make sure you're using Python 3.8 or higher
-   - Create a fresh virtual environment
-   - Check the [issues page](https://github.com/Kira262/NeuroMaze/issues) for known problems
-
-3. **Emotion Detection**
-   - Ensure good lighting conditions
-   - Position yourself properly in front of the camera
-   - Check if the emotion model is properly loaded
-
-For more help, please [open an issue](https://github.com/Kira262/NeuroMaze/issues/new) or join our community!
+MIT License – Feel free to fork, remix, and build on top of this.
 
 ## 👤 Author
 
@@ -143,185 +183,10 @@ For more help, please [open an issue](https://github.com/Kira262/NeuroMaze/issue
 CSE Student | Full-stack Dev | AI Explorer  
 [Portfolio](https://github.com/Kira262)
 
-## 📜 License
-
-MIT License – Feel free to fork, remix, and build on top of this.
-
-## System Overview
-
-NeuroMaze consists of three main components:
-1. **Emotion Detector**: Python-based facial expression recognition
-2. **AI Backend**: FastAPI server that processes emotions and determines difficulty
-3. **Unity Game**: Adaptive puzzle game that responds to player emotions
-
-## Prerequisites
-
-### Python Environment
-- Python 3.8 or higher
-- Virtual environment (recommended)
-
-### Unity
-- Unity 2021.3 or higher
-- TextMeshPro package
-
-## Installation
-
-1. **Clone the repository**:
-```bash
-git clone https://github.com/yourusername/NeuroMaze.git
-cd NeuroMaze
-```
-
-2. **Set up Python environment**:
-```bash
-python -m venv .venv
-source .venv/bin/activate  # On Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-```
-
-3. **Download the emotion model**:
-- Place the emotion detection model in `models/emotion_model.pth`
-- If you don't have a model, you can train one using the provided training scripts
-
-## Running the System
-
-### 1. Start the AI Services
-
-Open a terminal and run:
-```bash
-python main.py
-```
-This will start:
-- The emotion detector on port 8001
-- The backend server on port 8000
-
-### 2. Set up the Unity Project
-
-1. Open the Unity project in `unity-game/`
-2. Import TextMeshPro if not already installed
-3. Set up the scene:
-   - Create a new scene or use the provided sample scene
-   - Add the following GameObjects:
-     - GameManager (empty GameObject with GameManager script)
-     - DifficultyManager (empty GameObject with DifficultyManager script)
-     - Player (3D object with PlayerController script)
-     - Canvas with EmotionUI components
-
-### 3. Configure the Scene
-
-1. **Player Setup**:
-   - Add a Rigidbody component
-   - Configure constraints (freeze rotation on X and Z)
-   - Set appropriate drag values
-
-2. **UI Setup**:
-   - Create a Canvas
-   - Add EmotionPanel with:
-     - EmotionText (TextMeshPro)
-     - DifficultyText (TextMeshPro)
-     - FeedbackText (TextMeshPro)
-     - EmotionIcon (Image)
-   - Add emotion icons to the Assets/Sprites/Emotions folder
-
-3. **Camera Setup**:
-   - Position the camera to view the player
-   - Adjust field of view as needed
-
-## How It Works
-
-### Emotion Detection Flow
-1. The emotion detector captures webcam footage
-2. Facial expressions are analyzed in real-time
-3. Detected emotions are sent to the backend
-4. The backend processes the emotion and determines difficulty
-5. The Unity game receives the difficulty setting
-6. Game parameters are adjusted accordingly
-
-### Difficulty Levels
-
-The game adjusts based on detected emotions:
-
-| Emotion    | Difficulty | Game Adjustments                          |
-|------------|------------|-------------------------------------------|
-| Happiness  | Easy       | Slower enemies, more health, longer time  |
-| Anger      | Hard       | Faster enemies, less health, shorter time |
-| Fear       | Easy       | Reduced challenge to ease tension         |
-| Sadness    | Easy       | Reduced challenge to improve mood         |
-| Surprise   | Normal     | Standard game parameters                  |
-| Disgust    | Hard       | Increased challenge                       |
-| Neutral    | Normal     | Standard game parameters                  |
-
-### Game Parameters
-
-The following parameters are adjusted based on difficulty:
-
-- Enemy Speed
-- Enemy Spawn Rate
-- Player Health
-- Player Speed
-- Puzzle Time Limit
-
-## Testing
-
-1. **Start the AI Services**:
-```bash
-python main.py
-```
-
-2. **Run the Unity Game**:
-- Press Play in the Unity Editor
-- Make sure your webcam is accessible
-- Test different facial expressions to see the difficulty adjust
-
-3. **Verify the System**:
-- Check the Unity Console for any errors
-- Monitor the Python terminal for emotion detection output
-- Verify that the UI updates with current emotion and difficulty
-
-## Troubleshooting
-
-### Common Issues
-
-1. **Webcam Not Detected**:
-   - Check if the webcam is properly connected
-   - Verify camera permissions
-   - Try a different camera if available
-
-2. **Connection Errors**:
-   - Ensure the backend is running on port 8000
-   - Check if the Unity game is using the correct backend URL
-   - Verify network connectivity
-
-3. **Emotion Detection Issues**:
-   - Ensure good lighting conditions
-   - Position yourself properly in front of the camera
-   - Check if the emotion model is properly loaded
-
-### Debugging
-
-1. **Unity Console**:
-   - Monitor for any error messages
-   - Check if difficulty updates are being received
-
-2. **Python Terminal**:
-   - Look for emotion detection output
-   - Check for any backend errors
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Commit your changes
-4. Push to the branch
-5. Create a Pull Request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
+## 🙏 Acknowledgments
 
 - MediaPipe for facial landmark detection
 - PyTorch for the emotion recognition model
 - FastAPI for the backend server
 - Unity for the game engine
+

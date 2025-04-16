@@ -9,16 +9,27 @@ from pydantic import BaseModel
 from emotion_detector.emotion_detector import EmotionDetector
 import time
 import logging
+import json
+import os
+
+# Load configuration
+with open('config.json', 'r') as f:
+    config = json.load(f)
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
+    level=getattr(logging, config['game']['log_level']),
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
 # Create FastAPI app
 app = FastAPI(title="NeuroMaze Backend")
+
+@app.get("/health")
+def health_check():
+    """Health check endpoint for the backend."""
+    return {"status": "healthy", "version": "1.0.0"}
 
 class EmotionRequest(BaseModel):
     """Request model for emotion input."""
@@ -62,15 +73,17 @@ def adjust_difficulty(request: EmotionRequest):
 
 def run_backend():
     """Run the FastAPI backend server."""
-    logger.info("Starting backend server on http://localhost:8000")
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    logger.info(f"Starting backend server on http://{config['backend']['host']}:{config['backend']['port']}")
+    uvicorn.run(app, host=config['backend']['host'], port=config['backend']['port'])
 
 def run_emotion_detector():
     """Run the emotion detector in continuous mode."""
     logger.info("Starting emotion detector")
-    detector = EmotionDetector(api_url="http://localhost:8000")
+    detector = EmotionDetector(
+        api_url=f"http://{config['backend']['host']}:{config['backend']['port']}"
+    )
     try:
-        detector.run_continuous_detection(update_interval=1.0)
+        detector.run_continuous_detection(update_interval=config['emotion_detector']['update_interval'])
     except Exception as e:
         logger.error(f"Error in emotion detector: {e}")
 
