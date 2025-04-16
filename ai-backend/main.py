@@ -1,32 +1,31 @@
+"""
+FastAPI backend for NeuroMaze: Adaptive Puzzleverse
+Handles difficulty adjustment based on player emotion.
+"""
 from fastapi import FastAPI
 from pydantic import BaseModel
-import random
 
 app = FastAPI()
 
-
-class PlayerData(BaseModel):
-    puzzle_time: float
-    error_rate: float
+class EmotionRequest(BaseModel):
+    """Request model for emotion input."""
     emotion: str
 
-
 @app.post("/adjust-difficulty/")
-def adjust_difficulty(player_data: PlayerData):
-    """
-    Adjust puzzle difficulty based on player data (time, errors, emotion).
-    """
-    # Simple logic to adjust difficulty
-    difficulty = "Normal"
-
-    if player_data.emotion == "Frustrated" or player_data.error_rate > 0.5:
+def adjust_difficulty(request: EmotionRequest):
+    """Adjusts game difficulty based on the provided emotion."""
+    emotion = request.emotion
+    difficulty = "Normal"  # Default difficulty
+    # Adjust logic based on emotion
+    if emotion == "Happiness":
         difficulty = "Easy"
-    elif player_data.puzzle_time > 60:
+    elif emotion == "Anger":
         difficulty = "Hard"
+    else:
+        difficulty = "Normal"
+    feedback = f"Difficulty adjusted to {difficulty} based on {emotion}"
+    return {"difficulty": difficulty, "feedback": feedback}
 
-    return {"difficulty": difficulty, "feedback": "Keep going!"}
-
-
-@app.get("/")
-def read_root():
-    return {"message": "NeuroMaze API is running!"}
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="127.0.0.1", port=8000)
