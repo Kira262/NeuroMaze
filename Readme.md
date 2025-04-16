@@ -1,16 +1,50 @@
 # 🧠 NeuroMaze: Adaptive Puzzleverse 🎮
 
-**NeuroMaze** is an AI-powered puzzle game that adapts itself in real-time based on the player's emotional state and playstyle. Designed as a solo hackathon project, it combines game design, AI, and emotion detection to deliver a personalized gameplay experience.
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python" alt="Python"/>
+  <img src="https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi" alt="FastAPI"/>
+  <img src="https://img.shields.io/badge/PyTorch-ML-orange?logo=pytorch" alt="PyTorch"/>
+  <img src="https://img.shields.io/badge/License-MIT-yellow" alt="MIT License"/>
+</p>
 
 ---
 
-## 🎯 What Makes It Unique?
+> **NeuroMaze** is an AI-powered puzzle game that adapts itself in real-time based on your emotional state and playstyle. Combining game design, AI, and emotion detection, it delivers a truly personalized gameplay experience.
 
-- 🤖 **Emotion Detection via Webcam** — Uses real-time facial analysis to detect stress, confusion, or excitement.
-- 🧩 **Dynamic Puzzle Generation** — Puzzles evolve in complexity based on how you're performing.
-- 🧠 **Player Behavior Profiling** — Game learns your style: solver, explorer, rusher, tinkerer.
+---
+
+## ✨ Features
+
+- 🤖 **Real-Time Emotion Detection** — Uses your webcam to sense stress, confusion, or excitement.
+- 🧩 **Dynamic Puzzle Generation** — Mazes and puzzles evolve in complexity as you play.
+- 🧠 **Player Behavior Profiling** — Learns your style: solver, explorer, rusher, tinkerer.
 - 🗣️ **AI-Powered Game Narrator** — The in-game voice adapts its tone to your behavior and emotions.
-- 🌐 **WebGL-Ready** — Fully playable in browser for demo and portfolio.
+- 🌐 **WebGL-Ready** — Playable in browser for demo and portfolio.
+
+---
+
+## 🚀 Quickstart
+
+```bash
+# 1. Clone the repo
+$ git clone https://github.com/yourusername/NeuroMaze.git
+$ cd NeuroMaze
+
+# 2. Install dependencies
+$ pip install -r requirements.txt
+
+# 3. Start the backend (FastAPI)
+$ cd ai-backend
+$ uvicorn main:app --reload
+
+# 4. Run the emotion detector
+$ cd ../emotion_detector
+$ python detect_emotion.py
+
+# 5. Start the game (Pygame)
+$ cd ../game
+$ python game.py
+```
 
 ---
 
@@ -18,49 +52,67 @@
 
 | Area              | Stack / Tools                                       |
 | ----------------- | --------------------------------------------------- |
-| Game Engine       | Unity 3D + C# + URP                                 |
-| Emotion Detection | Python, OpenCV, MediaPipe, FER2013 CNN              |
+| Game Engine       | Pygame (Python)                                     |
+| Emotion Detection | Python, OpenCV, MediaPipe, PyTorch CNN              |
 | Backend API       | FastAPI, Uvicorn                                    |
 | AI Models         | PyTorch (Emotion Classification, Behavior Modeling) |
-| Communication     | UnityWebRequest (Unity) ↔ FastAPI (Python)          |
-| Hosting           | GitHub Pages (WebGL), Render/Vercel (API)           |
+| Communication     | REST (requests)                                     |
+| Hosting           | (Planned) WebGL, Render/Vercel                      |
 
 ---
 
-## 🔍 Modules Breakdown
+## 🧩 How It Works
 
-- `unity-game/`: Unity project with puzzle mechanics, player controller, API calls.
-- `ai-backend/`: FastAPI backend serving difficulty levels and behavior analysis.
-- `emotion-detector/`: Real-time webcam emotion detection using OpenCV.
-- `assets/`: Textures, models, audio, and UI art.
-- `demo/`: WebGL build or gameplay footage.
+```
+[Webcam] → [Emotion Detector] → [AI Backend] → [Game Difficulty & Feedback]
+      |             |                  |                  |
+      |             |                  |                  |
+      +---[Face]    +---[Emotion]      +---[Difficulty]   +---[Adaptive Maze]
+```
 
 ---
 
 ## 📸 Screenshots / Demo
 
-_(Will add after development is complete)_
+> _Coming soon!_
 
 ---
 
-## 🧩 Puzzle Mechanic Overview
+## 📦 Project Structure
 
-- Each room in the maze is a new logic challenge.
-- Based on your frustration level (from face), puzzles will:
-  - Reduce/increase complexity
-  - Offer hints or get sarcastic
-  - Alter environmental effects (color, light, sound)
+```
+NeuroMaze/
+├── ai-backend/         # FastAPI backend for difficulty logic
+├── emotion_detector/   # Real-time emotion detection
+├── game/               # Pygame-based maze game
+├── assets/             # Art, audio, and UI assets
+├── demo/               # WebGL build or gameplay footage
+├── requirements.txt    # Python dependencies
+└── Readme.md           # This file
+```
 
 ---
 
-## 🚧 Roadmap
+## 🧠 Roadmap
 
-- [ ] Basic Maze Navigation
+- [x] Basic Maze Navigation
+- [x] Emotion Detector Integration
+- [x] Backend AI Logic
 - [ ] Puzzle Room Template
-- [ ] Emotion Detector Integration
-- [ ] Backend AI Logic
 - [ ] Unity ↔ API Integration
 - [ ] WebGL Build & Deployment
+
+---
+
+## 🤝 Contributing
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+1. Fork the repo
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a pull request
 
 ---
 
@@ -68,7 +120,7 @@ _(Will add after development is complete)_
 
 **Paavan**  
 CSE Student | Full-stack Dev | AI Explorer  
-[Portfolio Website]() _(Coming soon)_
+[Portfolio](https://github.com/kira262)
 
 ---
 
