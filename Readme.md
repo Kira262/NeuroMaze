@@ -4,12 +4,13 @@
   <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python" alt="Python"/>
   <img src="https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi" alt="FastAPI"/>
   <img src="https://img.shields.io/badge/PyTorch-ML-orange?logo=pytorch" alt="PyTorch"/>
+  <img src="https://img.shields.io/badge/Unity-Game-blue?logo=unity" alt="Unity"/>
   <img src="https://img.shields.io/badge/License-MIT-yellow" alt="MIT License"/>
   <img src="https://img.shields.io/badge/Made with-❤-maroon" alt="Made with Love">
   <img src="https://img.shields.io/badge/Status-Alpha-orange" alt="Development Status">
 </p>
 
-> **NeuroMaze** is an AI-powered puzzle game that adapts itself in real-time based on your emotional state and playstyle. Combining game design, AI, and emotion detection, it delivers a truly personalized gameplay experience.
+> **NeuroMaze** is an AI-powered puzzle game that adapts itself in real-time based on your emotional state and playstyle. Combining Unity game design, AI, and emotion detection, it delivers a truly personalized gameplay experience.
 
 ## ✨ Features
 
@@ -17,13 +18,13 @@
 - 🧩 **Dynamic Puzzle Generation** — Mazes and puzzles evolve in complexity as you play
 - 🧠 **Player Behavior Profiling** — Learns your style: solver, explorer, rusher, tinkerer
 - 🗣️ **AI-Powered Game Narrator** — The in-game voice adapts its tone to your behavior and emotions
-- 🌐 **WebGL-Ready** — Playable in browser for demo and portfolio
+- 🌐 **Unity-Based Game** — High-quality 3D experience with WebGL export capability
 
 ## 🚀 Quickstart
 
 ### Prerequisites
 - Windows 10/11
-- Python 3.8 or higher
+- Python 3.10 or higher
 - Webcam
 - Git (optional, for cloning)
 
@@ -31,11 +32,11 @@
 
 #### Option 1: One-Click Launch (Recommended)
 1. Download the latest release
-2. Run `launch.bat`
+2. Run `main.py`
    - This will automatically:
      - Set up the Python environment
      - Install dependencies
-     - Start the backend
+     - Start the AI backend
      - Launch the game
 
 #### Option 2: Manual Setup
@@ -44,27 +45,33 @@
 git clone https://github.com/Kira262/NeuroMaze.git
 cd NeuroMaze
 
-# 2. Run setup script
-setup.bat
+# 2. Install dependencies
+pip install -r requirements.txt
 
-# 3. Start the game
-run_game.bat
+# 3. Start the backend
+python ai_backend/main.py
+
+# 4. Launch the game
+python main.py
 ```
 
 ### Configuration
-Customize your experience by editing `config.json`:
-```json
-{
+The game automatically detects and configures settings based on your system, but you can manually adjust parameters as needed:
+
+```python
+# Sample configuration
+config = {
     "backend": {
-        "host": "0.0.0.0",    // Change if running on a different machine
-        "port": 8000          // Change if port 8000 is in use
+        "host": "127.0.0.1",
+        "port": 8000
     },
     "emotion_detector": {
-        "update_interval": 1.0 // How often to check emotions (in seconds)
+        "update_interval": 1.0,  # How often to check emotions (in seconds)
+        "model": "emotion_detector/models/emotion_model.pth"
     },
     "game": {
         "default_difficulty": "Normal",
-        "log_level": "INFO"   // Options: DEBUG, INFO, WARNING, ERROR
+        "enable_emotion_detection": True
     }
 }
 ```
@@ -74,56 +81,67 @@ Customize your experience by editing `config.json`:
 ### Project Structure
 ```
 NeuroMaze/
-├── ai-backend/         # FastAPI backend for difficulty logic
-├── emotion_detector/   # Real-time emotion detection
-├── game/               # Pygame-based maze game
-├── assets/             # Art, audio, and UI assets
-├── demo/               # WebGL build or gameplay footage
-├── scripts/            # Utility scripts
-│   ├── launch.bat      # One-click launcher
-│   ├── setup.bat       # Environment setup with version checks
-│   ├── run_game.bat    # Game runner
-│   ├── cleanup.bat     # Environment cleanup
-│   └── test_installation.bat  # Installation verification
-├── requirements.txt    # Python dependencies
-└── config.json         # Configuration file
+├── main.py                  # Main application entry point
+├── ai_backend/              # FastAPI backend for game logic
+│   └── main.py              # Backend server
+├── emotion_detector/        # Real-time emotion detection
+│   ├── __init__.py
+│   ├── backend_client.py    # Client for communicating with backend
+│   ├── detect_emotion.py    # Emotion detection implementation
+│   ├── emotion_detector.py  # Core detector class
+│   ├── emotion_model.py     # PyTorch model definitions
+│   └── models/              # Pre-trained emotion models
+│       ├── emotion_album_model.pt
+│       ├── emotion_model.pth
+│       └── train_model.py   # Script for training custom models
+├── assets/                  # Art, audio, and UI assets
+├── demo/                    # Demo builds and gameplay footage
+├── requirements.txt         # Python dependencies
+├── checkgpu.py              # Utility to verify GPU availability
+└── unity-game/              # Unity game project
+    ├── Assets/              # Unity game assets
+    │   ├── Scenes/          # Game scenes/levels
+    │   ├── Scripts/         # C# game scripts
+    │   ├── Settings/        # Unity project settings
+    │   └── Sprites/         # 2D graphics
+    └── ProjectSettings/     # Unity configuration
 ```
 
-### Available Scripts
-- `launch.bat` - One-click setup and launch
-- `setup.bat` - Set up Python environment with version checks
-- `run_game.bat` - Start the game
-- `cleanup.bat` - Reset environment
-- `test_installation.bat` - Verify installation and dependencies
+### Unity Integration
+The project uses Unity as the game engine, with Python-based backend services for:
+- Emotion detection through webcam
+- AI-driven difficulty adjustment
+- Dynamic maze generation
 
-### Installation Verification
-After setup, you can verify your installation by running:
-```bash
-test_installation.bat
-```
-This will check:
-- Python environment
-- Virtual environment
-- Required packages
-- Webcam access
-- Backend health
+The Unity game communicates with the Python backend via REST API calls.
 
 ### Development Workflow
-1. Run `setup.bat` to create the environment
-2. Use `test_installation.bat` to verify setup
-3. Make your changes
-4. Test with `run_game.bat`
-5. Use `cleanup.bat` to reset if needed
+1. Start the AI backend: `python ai_backend/main.py`
+2. Run emotion detection tests: `python emotion_detector/detect_emotion.py --test`
+3. Open the Unity project in Unity Editor for game development
+4. For full experience testing, run `python main.py`
 
 ## 🧠 How It Works
 
 ### System Architecture
 ```
-[Webcam] → [Emotion Detector] → [AI Backend] → [Game Difficulty & Feedback]
-      |             |                  |                  |
-      |             |                  |                  |
-      +---[Face]    +---[Emotion]      +---[Difficulty]   +---[Adaptive Maze]
+[Webcam] → [Emotion Detector] → [AI Backend] → [Unity Game]
+      |             |                  |                |
+      |             |                  |                |
+      +---[Face]    +---[Emotion]      +---[Difficulty] +---[Adaptive Maze]
 ```
+
+### Emotion Detection
+The system uses a PyTorch-based neural network trained on facial expressions to detect seven core emotions:
+- Happiness
+- Anger
+- Fear
+- Sadness
+- Surprise
+- Disgust
+- Neutral
+
+These emotions are processed in real-time and sent to the AI backend for game adaptation.
 
 ### Difficulty Levels
 
@@ -144,26 +162,32 @@ This will check:
 1. **Webcam Not Working**
    - Check if webcam is properly connected
    - Verify camera permissions in Windows Settings
-   - Try a different USB port
-   - Test with another application (e.g., Camera app)
+   - Try running: `python emotion_detector/detect_emotion.py --test-camera`
 
-2. **Backend Connection Issues**
+2. **GPU Acceleration Issues**
+   - Run `python checkgpu.py` to verify GPU detection
+   - Update your graphics drivers
+   - Ensure PyTorch is installed with CUDA support if using NVIDIA GPU
+
+3. **Backend Connection Issues**
    - Check if backend is running: `curl http://localhost:8000/health`
    - Verify port 8000 is available
-   - Check firewall settings
-   - Look for error messages in the console
+   - Check for error messages in the console
 
-3. **Installation Problems**
-   - Run `cleanup.bat` and try again
-   - Ensure Python 3.8+ is installed
-   - Check if pip is up to date
-   - Verify virtual environment creation
+4. **Unity Game Not Starting**
+   - Verify Unity installation
+   - Check for error logs in the console
+   - Try running the standalone build if available
 
-### Debugging Tools
-- Check logs in the console
-- Use the health endpoint: `http://localhost:8000/health`
-- Monitor emotion detection in real-time
-- Check game difficulty adjustments
+### Dependencies
+Key dependencies include:
+- PyTorch (ML framework)
+- OpenCV (Computer vision)
+- FastAPI (Backend server)
+- MediaPipe (Face detection)
+- TensorFlow (Additional ML capabilities)
+
+Run `pip install -r requirements.txt` to install all dependencies.
 
 ## 🤝 Contributing
 

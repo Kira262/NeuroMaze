@@ -38,3 +38,6 @@ Thumbs.db
 .cursorignore
 
 reqOG.txt
+
+emotion_detector/__pycache__
+ai_backend/__pycache__

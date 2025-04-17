@@ -1,68 +1,50 @@
-"""
-FastAPI backend for NeuroMaze: Adaptive Puzzleverse
-Handles difficulty adjustment based on player emotion.
-"""
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Dict, Any
+import logging
 
 app = FastAPI()
-
-# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows all origins
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("neuro_maze")
+
+# In-memory state
+state = {"difficulty": "Normal", "feedback": "Waiting for data..."}
 
 
-class EmotionRequest(BaseModel):
-    """Request model for emotion input."""
-
+class EmotionInput(BaseModel):
+    puzzle_time: float
+    error_rate: float
     emotion: str
 
 
-class DifficultyResponse(BaseModel):
-    """Response model for difficulty adjustment."""
+@app.post("/adjust-difficulty/")
+async def adjust_difficulty(data: EmotionInput):
+    logger.info(f"Received: {data}")
+    # --- your existing logic ---
+    if data.emotion in ["Anger", "Sadness", "Fear"] or data.error_rate > 0.4:
+        diff, fb = "Easy", "You seem stressed. Taking it easy..."
+    elif (
+        data.emotion == "Happiness" and data.error_rate < 0.2 and data.puzzle_time < 60
+    ):
+        diff, fb = "Hard", "You’re on fire—cranking up the challenge!"
+    else:
+        diff, fb = "Normal", "Keep going!"
 
-    difficulty: str
-    feedback: str
-    status: str = "success"
-
-
-@app.post("/adjust-difficulty/", response_model=DifficultyResponse)
-def adjust_difficulty(request: EmotionRequest) -> Dict[str, Any]:
-    """Adjusts game difficulty based on the provided emotion."""
-    emotion = request.emotion
-    difficulty = "Normal"  # Default difficulty
-
-    # Adjust logic based on emotion
-    if emotion == "Happiness":
-        difficulty = "Easy"
-    elif emotion == "Anger":
-        difficulty = "Hard"
-    elif emotion == "Fear":
-        difficulty = "Easy"
-    elif emotion == "Sadness":
-        difficulty = "Easy"
-    elif emotion == "Surprise":
-        difficulty = "Normal"
-    elif emotion == "Disgust":
-        difficulty = "Hard"
-    else:  # Neutral
-        difficulty = "Normal"
-
-    feedback = f"Difficulty adjusted to {difficulty} based on {emotion}"
-    return {"difficulty": difficulty, "feedback": feedback, "status": "success"}
+    # update shared state
+    state["difficulty"] = diff
+    state["feedback"] = fb
+    logger.info(f"State updated: {state}")
+    return state
 
 
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(
-        app, host="0.0.0.0", port=8000
-    )  # Changed to 0.0.0.0 to allow external connections
+@app.get("/state/")
+async def get_state():
+    # Unity will call this
+    return state
