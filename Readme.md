@@ -1,5 +1,9 @@
 # 🧠 NeuroMaze: Adaptive Puzzleverse 🎮
 
+> **⚠ Disclaimer**  
+> _This project is currently a prototype and may not function correctly._  
+> _It is a work in progress and is intended for **experimental** and **demonstration** purposes only._  
+
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3.10+-blue?logo=python" alt="Python"/>
   <img src="https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi" alt="FastAPI"/>
